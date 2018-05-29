@@ -1,0 +1,23 @@
+{
+  "name": "tailwindcss",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "author": "Ben Furfie <hello@benfurfie.co.uk>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cache": "^1.0.2",
+    "gulp-clean-css": "^3.9.4",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-postcss": "^7.0.1",
+    "gulp-rename": "^1.2.3",
+    "gulp-run-command": "^0.0.9",
+    "gulp-sass": "^4.0.1",
+    "jquery": "3.3.1",
+    "tailwindcss": "^0.5.3",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack-stream": "^4.0.3"
+  }
+}

@@ -1,0 +1,14 @@
+// Import Preflight and Components
+@tailwind preflight;
+@tailwind components;
+
+// Import Custom Mixins
+@import "mixins";
+
+// Import Custom Classes
+@import "components/all";
+@import "utilities/all";
+
+// Import Utilities
+// TailwindCSS recommends leaving utilities till last to ensure they aren't overwritten.
+@tailwind utilities;
