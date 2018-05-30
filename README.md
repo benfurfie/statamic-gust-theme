@@ -4,7 +4,7 @@ Gust is a starter theme that is designed to give you a solid foundation upon whi
 
 The real magic is in the CSS and JS. Gust is designed to give you a custom TailwindCSS configuration out of the box. It's powered by Gulp, Webpack and PostCSS, but don't worry – you don't need to know how to configure them – it's already set up out of the box.
 
-##Installing
+## Installing
 
 1. Spin up a Statamic site if you haven't already.
 2. Download Gust.
@@ -12,15 +12,15 @@ The real magic is in the CSS and JS. Gust is designed to give you a custom Tailw
 
 From there, you have two options:
 
-###Code
+### Code
 
 Go to site/settings/theming.yaml and change the value of theme to `gust`.
 
-###In the CP
+### In the CP
 
 Go to Settings -> Theming and select Gust from the dropdown.
 
-##Configuration
+## Configuration
 
 Before going through these steps, you'll need either Yarn or NPM installed (my preference is Yarn). Once that's done, then follow these steps:
 
