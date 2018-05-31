@@ -1,0 +1,17 @@
+.button {
+    @apply .font-bold .py-2 .px-4 .rounded;
+    &--blue {
+        @apply .bg-blue .text-white;
+        &:hover,
+        &:focus {
+            @apply .bg-blue-dark;
+        }
+    }
+    &--grey {
+        @apply .bg-grey-light .text-grey-darkest;
+        &:hover,
+        &:focus {
+            @apply .bg-grey;
+        }
+    }
+}
