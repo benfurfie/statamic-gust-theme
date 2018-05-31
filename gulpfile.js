@@ -50,13 +50,20 @@ gulp.task('css:compile', function() {
                     extensions: ['html', 'js', 'php', 'vue'],
                 }
             ],
+            /**
+             * You can whitelist selectors to stop purgecss from removing them from your CSS.
+             * see: https://www.purgecss.com/whitelisting
+             * 
+             * Any selectors defined below will not be stripped from the min.css file.
+             * PurgeCSS will not purge the standard app.css file as this is useful for development.
+             * 
+             * @since 1.0.0
+             */
             whitelist: [
                 'h2',
                 'h3',
                 'p',
                 'blockquote',
-                'cta-primary',
-                'cta-secondary'
             ],
         })
     ]))
@@ -146,10 +153,16 @@ gulp.task('default', ['css', 'js']);
 /**
  * Dev task
  * This will run while you're building the theme and automatically compile any changes.
+ * This includes any html changes you make so that the purgecss file will be updated.
  * 
  * @since 1.0.0
  */
 gulp.task('dev', ['css', 'js'], function() {
+    gulp.watch([
+        'layouts/**/*.html',
+        'templates/**/*.html',
+        'partials/**/*.html',
+    ], ['css']);
     gulp.watch('./tailwind.config.js', ['css']);
     gulp.watch('./assets/styles/**/*.scss', ['css']);
     gulp.watch('./assets/scripts/**/*.js', ['js']);
