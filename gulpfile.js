@@ -11,7 +11,15 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     run = require('gulp-run-command').default,
     webpack = require('webpack-stream'),
-    tailwindcss = require('tailwindcss');
+    tailwindcss = require('tailwindcss'),
+    purgecss = require('@fullhuman/postcss-purgecss');
+
+
+class TailwindExtractor {
+    static extract(content) {
+        return content.match(/[A-z0-9-:\/]+/g) || [];
+    }
+}
 
 /**
  * Create the tailwind.config.js file.
@@ -29,7 +37,28 @@ gulp.task('css:compile', function() {
     return gulp.src('./assets/styles/app.scss')
     .pipe(sass())
     .pipe(postcss([
-        tailwindcss('./tailwind.config.js')
+        tailwindcss('./tailwind.config.js'),
+        purgecss({
+            content: [
+                'layouts/**/*.html',
+                'templates/**/*.html',
+                'partials/**/*.html',
+            ],
+            extractors: [
+                {
+                    extractor: TailwindExtractor,
+                    extensions: ['html', 'js', 'php', 'vue'],
+                }
+            ],
+            whitelist: [
+                'h2',
+                'h3',
+                'p',
+                'blockquote',
+                'cta-primary',
+                'cta-secondary'
+            ],
+        })
     ]))
     .pipe(rename({
         extname: '.css'
