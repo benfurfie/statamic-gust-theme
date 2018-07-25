@@ -64,4 +64,4 @@ This is where all your uncompiled SCSS code is stored. Within this folder, there
 The `app.scss` file is the main file. If you open it up, you'll see it imports a number of files. Don't edit this file directly unless you want to add a new folder. If you want to call in new components, go into the components folder and open the `_all.scss` file and import it there. Same goes for utilities.
 
 ## Support
-For any help installing or customising the theme, just [email me](hello@benfurfie.co.uk?subject=Gust Support) for the time being. I'll be setting up a helpdesk in the next couple of weeks.
+For any help installing or customising the theme, add an issue on the GitHub Repo.
