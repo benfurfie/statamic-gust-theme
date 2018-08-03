@@ -5,3 +5,7 @@
 # Ignore build files
 yarn.lock
 yarn-error.log
+
+# Ignore generated files
+css/
+js/
