@@ -2,6 +2,6 @@
 /node_modules
 /vendor
 
-# Ignore build files
+# Ignore lock and log files
 yarn.lock
 yarn-error.log
