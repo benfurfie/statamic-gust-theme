@@ -13,5 +13,10 @@
     </head>
     <body>
         {{ template_content }}
+        {{ if environment == 'production' }}
+            {{ theme:js src="app.min" tag="true" }}
+        {{ else }}
+            {{ theme:js src="app" tag="true" }}
+        {{ /if }}
     </body>
 </html>
