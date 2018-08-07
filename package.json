@@ -7,6 +7,7 @@
   "private": true,
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^1.0.1",
+    "browser-sync": "^2.24.6",
     "gulp": "^3.9.1",
     "gulp-cache": "^1.0.2",
     "gulp-clean-css": "^3.9.4",
