@@ -5,7 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
-        {{ theme:css src="app.min" tag="true" }}
+        {{ if environment == 'production' }}
+            {{ theme:css src="app.min" tag="true" }}
+        {{ else }}
+            {{ theme:css src="app" tag="true" }}
+        {{ /if }}
     </head>
     <body>
         {{ template_content }}
