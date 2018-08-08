@@ -24,6 +24,14 @@ Go to site/settings/theming.yaml and change the value of theme to `gust`. If the
 
 Go to Settings -> Theming and select Gust from the dropdown.
 
+## Updating
+
+### 1.1
+
+The only files changed are gulpfile.js and package.json.
+
+Once you've copied these over to your project, run yarn install and it will pull through the necessary packages for BrowserSync.
+
 ## Configuration
 
 Before going through these steps, you'll need either Yarn or NPM installed (my preference is Yarn). Once that's done, then follow these steps:
@@ -36,6 +44,10 @@ Before going through these steps, you'll need either Yarn or NPM installed (my p
 **gulp dev** will run in the background and configure your CSS and JS in the background. You shouldn't need to restart it, unless you accidentally save something that breaks the task. If that happens, fix the issue and then re-run `gulp dev`.
 
 **gulp preflight** will run compile all of your assets, but will also run purgeCSS. This is the task you want to run when you're getting ready to push a site to production. I don't recommend running it as part of a CI as there is a chance that if you haven't whitelisted a class in the purgeCSS configuration, you may find it breaks your site without noticing. 
+
+### BrowserSync [New in 1.1.0]
+
+If you want to make use of BrowserSync, you need to open up gulpfile.js and add the url of your local site to the file. Save and run **gulp dev** and it will initialise BrowserSync for you in a new window.
 
 ## Folder Structure
 
