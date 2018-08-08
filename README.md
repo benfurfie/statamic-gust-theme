@@ -35,6 +35,8 @@ Before going through these steps, you'll need either Yarn or NPM installed (my p
 
 **gulp dev** will run in the background and configure your CSS and JS in the background. You shouldn't need to restart it, unless you accidentally save something that breaks the task. If that happens, fix the issue and then re-run `gulp dev`.
 
+**gulp preflight** will run compile all of your assets, but will also run purgeCSS. This is the task you want to run when you're getting ready to push a site to production. I don't recommend running it as part of a CI as there is a chance that if you haven't whitelisted a class in the purgeCSS configuration, you may find it breaks your site without noticing. 
+
 ## Folder Structure
 
 The folder structure is based on years of experience building and maintaining complex websites. However, that doesn't mean if you're building a simple site, you won't benefit!
