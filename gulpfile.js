@@ -1,4 +1,11 @@
 /**
+ * BrowserSync config
+ * 
+ * In order to ensure that BrowserSync works with your site, add your local URL here.
+ */
+var localUrl = 'http://gust.localhost';
+
+/**
  * Required Packages
  */
 var gulp = require('gulp'),
@@ -13,6 +20,7 @@ var gulp = require('gulp'),
     webpack = require('webpack-stream'),
     tailwindcss = require('tailwindcss'),
     purgecss = require('@fullhuman/postcss-purgecss');
+    browserSync = require('browser-sync').create();
 
 
 class TailwindExtractor {
@@ -34,6 +42,134 @@ gulp.task('tailwind:init', run('./node_modules/.bin/tailwind init tailwind.confi
  * @since 1.0.0
  */
 gulp.task('css:compile', function() {
+    return gulp.src('./assets/styles/app.scss')
+    .pipe(sass())
+    .pipe(postcss([
+        tailwindcss('./tailwind.config.js')
+    ]))
+    .pipe(rename({
+        extname: '.css'
+    }))
+    .pipe(gulp.dest('css/'))
+    .pipe(notify(
+        {
+            message: 'Tailwind compiled'
+        }
+    ));
+});
+
+/**
+ * Minify the CSS
+ * 
+ * @since 1.0.0
+ * @version 1.1.0
+ */
+gulp.task('css:minify', ['css:compile'], function() {
+    return gulp.src([
+        './css/*.css',
+        '!./css/*.min.css'
+    ])
+    .pipe(cleanCSS())
+    .pipe(rename({
+        suffix: '.min'
+    }))
+    .pipe(gulp.dest('./css'))
+    .pipe(browserSync.stream())
+    .pipe(notify(
+        {
+            message: 'CSS minified'
+        }
+    ));
+});
+
+/**
+ * Run all CSS tasks
+ * 
+ * @since 1.0.0
+ */
+gulp.task('css', ['css:minify']);
+
+/**
+ * Minify JS
+ * 
+ * @since 1.0.0
+ * @version 1.1.0
+ */
+gulp.task('js:minify', function() {
+    return gulp.src('assets/scripts/main.js')
+    .pipe(webpack( require('./webpack.config.js') ))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./js'))
+    .pipe(browserSync.stream())
+    .pipe(notify({ message: 'Scripts task complete' }));
+});
+
+/**
+ * Run all JS tasks
+ * 
+ * @since 1.0.0
+ */
+gulp.task('js', ['js:minify']);
+
+/**
+ * Compress images
+ * 
+ * @since 1.0.0
+ * @version 1.1.0
+ */
+gulp.task('images', function() {
+    return gulp.src('assets/images/**/*')
+    .pipe(cache(imagemin({
+        optimisationLevel: 3,
+        progressive: true,
+        interlaced: true
+    })))
+    .pipe(gulp.dest('images'))
+    .pipe(notify({ message: 'Images compressed' }));
+});
+
+/**
+ * Default Gulp task
+ * 
+ * @since 1.0.0
+ */
+gulp.task('default', ['css', 'js']);
+
+/**
+ * Dev task
+ * This will run while you're building the theme and automatically compile any changes.
+ * This includes any html changes you make so that the purgecss file will be updated.
+ * 
+ * @since 1.0.0
+ * @version 1.1.0
+ */
+gulp.task('dev', ['css', 'js'], function() {
+    // Configure watch files.
+    gulp.watch([
+        'layouts/**/*.html',
+        'templates/**/*.html',
+        'partials/**/*.html',
+    ], ['css']).on('change', browserSync.reload);
+    gulp.watch('./tailwind.config.js', ['css']).on('change', browserSync.reload);
+    gulp.watch('./assets/styles/**/*.scss', ['css']).on('change', browserSync.reload);
+    gulp.watch('./assets/scripts/**/*.js', ['js']).on('change', browserSync.reload);
+
+    // Configure BrowserSync to run in dev
+    browserSync.init({
+        proxy: localUrl
+    });
+});
+
+/**
+ * CSS Preflight
+ * Unfortunately, it isn't possible to pass in parameters to gulp tasks.
+ * As such, we need to replicate the code.
+ *  
+ * Compile CSS [PREFLIGHT]
+ * 
+ * @since 1.0.0
+ */
+gulp.task('css:compile:preflight', function() {
     return gulp.src('./assets/styles/app.scss')
     .pipe(sass())
     .pipe(postcss([
@@ -79,11 +215,12 @@ gulp.task('css:compile', function() {
 });
 
 /**
- * Minify the CSS
+ * Minify the CSS [PREFLIGHT]
  * 
  * @since 1.0.0
+ * @version 1.1.0
  */
-gulp.task('css:minify', ['css:compile'], function() {
+gulp.task('css:minify:preflight', ['css:compile:preflight'], function() {
     return gulp.src([
         './css/*.css',
         '!./css/*.min.css'
@@ -93,6 +230,7 @@ gulp.task('css:minify', ['css:compile'], function() {
         suffix: '.min'
     }))
     .pipe(gulp.dest('./css'))
+    .pipe(browserSync.stream())
     .pipe(notify(
         {
             message: 'CSS minified'
@@ -105,65 +243,16 @@ gulp.task('css:minify', ['css:compile'], function() {
  * 
  * @since 1.0.0
  */
-gulp.task('css', ['css:minify']);
+gulp.task('css:preflight', ['css:minify:preflight']);
 
 /**
- * Minify JS
+ * Preflight task
+ * Run this once you're happy with your site and you want to prep the files for production.
+ * This will run the CSS and JS functions, as well as pass the CSS through purgecss to remove any unused CSS.
  * 
- * @since 1.0.0
- */
-gulp.task('js:minify', function() {
-    return gulp.src('assets/scripts/main.js')
-    .pipe(webpack( require('./webpack.config.js') ))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('./js'))
-    .pipe(notify({ message: 'Scripts task complete' }));
-});
-
-/**
- * Run all JS tasks
+ * Always double check that everything is still working. If something isn't displaying correctly, it may be
+ * because you need to add it to the purgeCSS whitelist.
  * 
- * @since 1.0.0
+ * @since 1.1.0
  */
-gulp.task('js', ['js:minify']);
-
-/**
- * Compress images
- * 
- * @since 1.0.0
- */
-gulp.task('images', function() {
-    return gulp.src('assets/images/**/*')
-    .pipe(cache(imagemin({
-        optimisationLevel: 3,
-        progressive: true,
-        interlaced: true
-    })))
-    .pipe(gulp.dest('images'))
-    .pipe(notify({ message: 'Images compressed' }));
-});
-
-/**
- * Default Gulp task
- * 
- * @since 1.0.0
- */
-gulp.task('default', ['css', 'js']);
-
-/**
- * Dev task
- * This will run while you're building the theme and automatically compile any changes.
- * This includes any html changes you make so that the purgecss file will be updated.
- * 
- * @since 1.0.0
- */
-gulp.task('dev', ['css', 'js'], function() {
-    gulp.watch([
-        'layouts/**/*.html',
-        'templates/**/*.html',
-        'partials/**/*.html',
-    ], ['css']);
-    gulp.watch('./tailwind.config.js', ['css']);
-    gulp.watch('./assets/styles/**/*.scss', ['css']);
-    gulp.watch('./assets/scripts/**/*.js', ['js']);
-});
+gulp.task('preflight', ['css:preflight', 'js'])
