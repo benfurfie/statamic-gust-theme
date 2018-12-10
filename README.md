@@ -32,6 +32,18 @@ The only files changed are gulpfile.js and package.json.
 
 Once you've copied these over to your project, run yarn install and it will pull through the necessary packages for BrowserSync.
 
+### 1.1.1
+Only package.json & gulpfile.js changed.  
+
+Once you've copied these over to your project, run yarn install and it will pull through the necessary packages for BrowserSync.
+
+Install LibPng for improved image optimization:  
+On Mac (use [Homebrew](https://brew.sh)):
+- `brew install libpng`
+  
+On Windows:  
+Install [LibPng For Windows](http://gnuwin32.sourceforge.net/packages/libpng.htm)
+
 ## Configuration
 
 Before going through these steps, you'll need either Yarn or NPM installed (my preference is Yarn). Once that's done, then follow these steps:
@@ -49,6 +61,12 @@ Before going through these steps, you'll need either Yarn or NPM installed (my p
 
 If you want to make use of BrowserSync, you need to open up gulpfile.js and add the url of your local site to the file. Save and run **gulp dev** and it will initialise BrowserSync for you in a new window.
 
+### [New in 1.1.1]
+- Browsersync now accepts an array of browsers you want to sync to. Accepted options are listed here: [BrowserSync Docs](https://browsersync.io/docs/options#option-browser)
+- New task to clear Gulp cache
+- Running `gulp dev` now generates app.css & app.js files, while `gulp preflight` generates app.min.css & app.min.js files.
+- Much improved image optimization, file sizes are now >500%+ smaller than before, with very little quality loss. Guaranteed to make Google Pagespeed happy.
+
 ## Folder Structure
 
 The folder structure is based on years of experience building and maintaining complex websites. However, that doesn't mean if you're building a simple site, you won't benefit!
@@ -63,6 +81,9 @@ Within assets, you'll find three folders:
 
 #### Images
 If you want to include images that will be a part of the theme, you can add them here. Then simply run `gulp images` and it will optimise them and spit them out in a folder called **/images**.
+
+###### Image Cache Helper
+ - If for some reason you need to re-run the `gulp images` task for all images, you can clear the image cache by running `gulp cache:clear`.  
 
 #### Scripts
 This is where you place all your core JS files. Don't put any actual code into the app.js file. Instead, require them in. Store any custom code in the components folder. Webpack will automatically compile them into one file and minify the code. It will then output it into the **/js** folder as a file called `app.min.js`. The theme layout is coded to automatically pick this up.
