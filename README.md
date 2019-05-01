@@ -4,7 +4,7 @@ Gust is a powerful starter theme, designed to give you a head start when buildin
 
 It comes with built-in support for custom [TailwindCSS](https://tailwindcss.com) configuration – a simple utility-first framework. It's well documented, easy to customise and is increasingly popular within the Statamic community. And the best bit is all the hard stuff to do with setting up the custom configuration is done for you! The theme is also designed to allow you to add your own styles using SCSS to compile them. Prefer to create components that use BEM-like syntax? That's possible too!
 
-Whatsmore, it makes use of Gulp, SCSS, Webpack and PostCSS to deliver fast, lean and performant style and script files that Goolge will love. Other features include PurgeCSS baked in by default.
+Whatsmore, it makes use of Gulp, SCSS, Webpack and PostCSS to deliver fast, lean and performant style and script files that Google will love. Other features include PurgeCSS baked in by default.
 
 Getting up and running is easy!
 
